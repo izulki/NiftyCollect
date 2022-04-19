@@ -5,16 +5,6 @@ var pgp = require('pg-promise')({
     capSQL: true 
   });
 
-const values = [{
-    id: "string",
-    setid: "string",
-    playid: "string",
-    playerid: "string",
-    playername: "string",
-    playcategory: "string",
-    dateofmoment: "string",
-    assetpath: "string"}];
-
 interface setToEvaluate {
     id: String,
     flowName: String
@@ -48,7 +38,7 @@ async function TSMonitorPlays() {
     for (let i=0; i<setsToEvaluate.length; i++) {
         console.log(`---${Date.now()}: FETCHING PLAYS - ${setsToEvaluate[i].flowName}---`)
         try {
-            let config = generateConfig(setsToEvaluate[i].id)
+            let config = generatePlaysConfig(setsToEvaluate[i].id)
             let gqlResponse = await axios(config);
             let plays = gqlResponse.data.data.getCodexSet.codexSetWithEditions.editionSlots;
             //console.log(plays)
@@ -88,7 +78,7 @@ async function TSMonitorPlays() {
 TSMonitorPlays();
 
 
-function generateConfig(set: String): Object {
+function generatePlaysConfig(set: String): Object {
     var playsQuery = JSON.stringify({
         query: `query GetCodexSet($input: GetCodexSetInput!) {
           getCodexSet(input: $input) {
