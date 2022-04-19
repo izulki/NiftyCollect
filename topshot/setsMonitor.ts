@@ -20,8 +20,7 @@ interface TSSet {
 /*** --- MONITOR FUNCTION  --- ***/
 async function TSMonitorSets() {
   console.log(`--- ${Date.now()}: STARTING TS SETS MONITOR ---`)
-  while (1) {
-    console.log(`--- ${Date.now()}: RUNNING CURRENT RUN ---`)
+
     /*** --- SET UP AXIOS QUERY - ITERATE THROUGH SERIES --- ***/
     for (let seriesIterator = 0; seriesIterator < setSeries.length; seriesIterator++) {
       var data = JSON.stringify({
@@ -95,9 +94,7 @@ async function TSMonitorSets() {
         console.error(err)
       }
     }
-    console.log(`--- ${Date.now()}: Completed current sets search - 3 hours until next run ---`)
-    await new Promise((r) => setTimeout(r, 10800000)); //Delay by 3 hours
-  }
+    console.log(`--- ${Date.now()}: Completed current sets search ---`)
 }
 
 /*** --- FUNCTION: UPSERT SET TO DATABASE --- ***/
